@@ -1,0 +1,67 @@
+{
+  "name": "@beatjs/create-react-native-module",
+  "version": "0.0.1",
+  "description": "Tool to create a React Native module with a single command",
+  "bin": "cli.js",
+  "main": "lib.js",
+  "scripts": {
+    "lint": "eslint",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beatjs/create-react-native-module.git"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "library",
+    "create",
+    "module",
+    "native",
+    "ios",
+    "android"
+  ],
+  "files": [
+    "templates",
+    "utils",
+    "cli.js",
+    "command.js",
+    "lib.js",
+    "README.md"
+  ],
+  "author": "beatjs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beatjs/create-react-native-module/issues"
+  },
+  "homepage": "https://github.com/beatjs/create-react-native-module#readme",
+  "dependencies": {
+    "commander": "^7.1.0",
+    "jsonfile": "^6.1.0",
+    "mkdirp": "^1.0.4",
+    "no-case": "^3.0.4",
+    "node-emoji": "^1.10.0",
+    "param-case": "^3.0.4",
+    "pascal-case": "^3.1.2",
+    "require": "^2.4.20",
+    "update-notifier": "^5.1.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/jsonfile": "^6.0.0",
+    "@types/mkdirp": "^1.0.1",
+    "@types/node": "^14.14.31",
+    "@types/node-emoji": "^1.8.1",
+    "@types/param-case": "^1.1.2",
+    "@types/update-notifier": "^5.0.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "shelljs": "^0.8.4",
+    "typescript": "^4.2.2"
+  },
+  "rnpm": {
+    "plugin": "./command.js"
+  }
+}

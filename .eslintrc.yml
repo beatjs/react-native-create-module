@@ -1,0 +1,9 @@
+extends: airbnb-base
+rules:
+  no-tabs: 0
+  prefer-rest-params: 0
+  import/no-extraneous-dependencies: 0
+  comma-dangle:
+    - error
+    - objects: only-multiline
+      functions: never
