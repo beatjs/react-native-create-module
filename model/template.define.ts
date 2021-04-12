@@ -1,9 +1,8 @@
 export const defaultName = () => "Library";
 export const defaultNamespace = () => "React.Native";
 export const defaultModulePrefix = () => "react-native";
-export const defaultPackageIdentifier = () => "com.react-native.library";
+export const defaultPackageIdentifier = () => "com.beatjs.react";
 export const defaultPlatforms = () => ["android", "ios"];
-export const defaultOverridePrefix = () => false;
 export const defaultGithubAccount = () => "github-account";
 export const defaultAuthorName = () => "Your Name";
 export const defaultAuthorEmail = () => "yourname@email.com";

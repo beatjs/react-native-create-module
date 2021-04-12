@@ -13,7 +13,6 @@ export const command = {
     const platforms = options.platforms
       ? options.platforms.split(",")
       : options.platforms;
-    const overridePrefix = options.overridePrefix;
     const githubAccount = options.githubAccount;
     const authorName = options.authorName;
     const authorEmail = options.authorEmail;
@@ -25,7 +24,6 @@ export const command = {
       modulePrefix,
       packageIdentifier,
       platforms,
-      overridePrefix,
       githubAccount,
       authorName,
       authorEmail,
@@ -41,10 +39,6 @@ ${emoji.get("clock9")}  It took ${Date.now() - beforeCreation}ms.
 ${emoji.get(
   "arrow_right"
 )}  To get started type \`cd ./${modulePrefix}-${name}\` and run \`npm install\` and run \`npx pod-install\``);
-        // process.chdir(`./${modulePrefix}-${name}`)
-        // execSync('npm install')
-        // execSync('npx pod-install')
-        // process.chdir(`../`)
       })
       .catch((err: { stack: any }) => {
         console.error(`Error while creating library ${name}`);
@@ -56,11 +50,6 @@ ${emoji.get(
   },
   options: [
     {
-      command: "--override-prefix",
-      description:
-        "Overrides the prefix check and allows the name to begin with uppercase characters",
-    },
-    {
       command: "--module-prefix [modulePrefix]",
       description:
         "The module prefix for the library (Default: `react-native`)",
@@ -69,8 +58,8 @@ ${emoji.get(
     {
       command: "--package-identifier [packageIdentifier]",
       description:
-        "(Android only!) The package name for the Android module (Default: `com.beatjs`)",
-      default: "com.beatjs",
+        "(Android only!) The package name for the Android module (Default: `com.beatjs.react.create`)",
+      default: "com.beatjs.react.create",
     },
     {
       command: "--platforms <platforms>",

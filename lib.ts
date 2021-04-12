@@ -24,7 +24,6 @@ import {
   defaultLicense,
   defaultModulePrefix,
   defaultName,
-  defaultOverridePrefix,
   defaultPackageIdentifier,
   defaultPlatforms,
 } from "./model/template.define";
@@ -48,19 +47,12 @@ export const createLibrary = async ({
   modulePrefix = defaultModulePrefix(),
   packageIdentifier = defaultPackageIdentifier(),
   platforms = defaultPlatforms(),
-  overridePrefix = defaultOverridePrefix(),
   githubAccount = defaultGithubAccount(),
   authorName = defaultName(),
   authorEmail = defaultAuthorEmail(),
   license = defaultLicense(),
   generateExample = defaultGenerateExample(),
 }) => {
-  if (!overridePrefix) {
-    if (hasPrefix(name.toString().split(" "))) {
-      throw new Error("Please don't include the prefix in the name");
-    }
-  }
-
   if (platforms.length === 0) {
     throw new Error(
       "Please specify at least one platform to generate the library."
