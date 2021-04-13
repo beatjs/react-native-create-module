@@ -1,4 +1,4 @@
-import { execSync } from "child_process"
+import { execSync } from "child_process";
 
 export const exec = (command: any, options: any) => {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
-# react-native-create-library
+# react-native-create-module
 Tool to create a React Native library with a single command.
 
-![](https://github.com/frostney/react-native-create-library/blob/master/docs/usage.gif)
+![](https://github.com/beatjs/react-native-create-module/blob/master/docs/usage.gif)
 
 ### Why might you need this?
 If you are looking to create a native module for React Native, you need some native code for each platform you want to support and then some JavaScript code to bind it all together. Setting this up by yourself can be time-consuming.
@@ -11,23 +11,20 @@ Why not use `react-native new-library`? Unfortunately that command doesn't creat
 
 Caution: This only creates native modules without a view component.
 
-### Alternatives
-[react-native-create-bridge](https://github.com/peggyrayzis/react-native-create-bridge)
-
 ## Installation
 Requirements: Node 6.0+
 ```
-$ npm install -g react-native-create-library
+$ npm install -g react-native-create-module
 ```
 
 ## Command-line usage
 
 Navigate into an empty directory to execute the command.
 ```
-$ react-native-create-library MyFancyLibrary
+$ react-native-create-module AwesomeModule
 ```
 
-This will create the folder `MyFancyLibrary` in which the library will be created in.
+This will create the folder `AwesomeModule` in which the library will be created in.
 
 Now install dependencies by running this command in the newly created library.
 ```
@@ -35,7 +32,7 @@ $ npm install
 ```
 
 ```
-Usage: react-native-create-library [options] <name>
+Usage: react-native-create-module [options] <name>
 
 Options:
 
@@ -53,12 +50,12 @@ Options:
 
 ## Programmatic usage
 ```javascript
-const createLibrary = require('react-native-create-library');
+const createLibrary = require('react-native-create-module');
 
 createLibrary({
-  name: 'MyFancyLibrary'
+  name: 'AwesomeModule'
 }).then(() => {
-  console.log('Oh yay! My library has been created!');
+  console.log('Oh yay! Awesome module has been created!');
 })
 ```
 
@@ -68,7 +65,7 @@ createLibrary({
   name: String, /* The name of the library (Default: Library) */
   modulePrefix: String, /* The module prefix for the library (Default: react-native) */
   platforms: Array, /* Platforms the library will be created for. (Default: ['ios', 'android']) */
-  packageIdentifier: String, /* (Android only!) The package name for the Android module (Default: com.react-native.library) */
+  packageIdentifier: String, /* (Android only!) The package name for the Android module (Default: com.beatjs) */
   githubAccount: String, /* The github account where the library is hosted (Default: `github-account`) */
   authorName: String, /* The author's name (Default: `Your Name`) */
   authorEmail: String, /* The author's email (Default: `yourname@email.com`) */ 

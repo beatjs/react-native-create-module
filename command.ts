@@ -3,7 +3,7 @@ import emoji from "node-emoji";
 import { createLibrary } from "./lib";
 
 export const command = {
-  name: "create-library",
+  name: "create-module",
   description: "creates a React Native library for different platforms",
   usage: "[options] <name>",
   func: (args: any, options: any) => {

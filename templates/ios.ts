@@ -11,44 +11,43 @@ export const ios = (platform: string): Template[] => [
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
 Pod::Spec.new do |s|
-  s.name         = "${args.name}"
-  s.version      = package["version"]
-  s.summary      = package["description"]
-  s.description  = <<-DESC
-                  ${args.name}
-                   DESC
-  s.homepage     = "https://github.com/${args.name}/${args.name}"
-  s.license    = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { "author" => "author@domain.cn" }
-  s.platform     = :ios, "7.0"
-  s.source       = { :git => "https://github.com/author/${args.name}.git", :tag => "#{s.version}" }
+  s.name = "${args.name}"
+  s.version = package["version"]
+  s.summary = package["description"]
+  s.description = 
+	<<-DESC
+		${args.name}
+	DESC
+  s.homepage = "https://github.com/${args.githubAccount}/${args.name}"
+  s.license = { :type => "MIT", :file => "LICENSE" }
+  s.author = { "${args.authorName}" => "${args.authorEmail}" }
+  s.platform = :ios, "11.0"
+  s.source = { :git => "https://github.com/${args.authorName}/${args.name}.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m}"
   s.requires_arc = true
 
-  s.dependency "React-Core"
+  s.dependency "ReactNativeCore"
 end
 
 `,
   },
   {
     name: () => `${platform}/Podfile`,
-    content: () => `
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
+    content: (args: TemplateArgs) => `
 platform :ios, '11.0'
-# use_frameworks!
-target 'DropBeat' do
-  config = use_native_modules!
 
-  use_react_native!(:path => config["reactNativePath"])
+use_frameworks!
+
+target '${args.name}' do
+	pod 'ReactNativeCore'
 end
 
 `,
   },
   {
-    name: (args: TemplateArgs) => `${platform}/RCT${args.name}Module.h`,
+    name: (args: TemplateArgs) =>
+      `${platform}/${args.name}/RCT${args.name}Module.h`,
     content: (
       args: TemplateArgs
     ) => `#if __has_include(<React/RCTBridgeModule.h>)
@@ -63,7 +62,8 @@ end
 `,
   },
   {
-    name: (args: TemplateArgs) => `${platform}/RCT${args.name}Module.m`,
+    name: (args: TemplateArgs) =>
+      `${platform}/${args.name}/RCT${args.name}Module.m`,
     content: (args: TemplateArgs) => `#import "RCT${args.name}Module.h"
 
 @implementation RCT${args.name}Module
@@ -86,6 +86,45 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 `,
   },
   {
+    name: (args: TemplateArgs) => `${platform}/${args.name}/${args.name}.h`,
+    content: () => `#import <Foundation/Foundation.h>
+
+//! Project version number for ReactComponent.
+FOUNDATION_EXPORT double ReactComponentVersionNumber;
+
+//! Project version string for ReactComponent.
+FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <ReactComponent/PublicHeader.h>
+`,
+  },
+  {
+    name: (args: TemplateArgs) => `${platform}/${args.name}/Info.plist`,
+    content: () => `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+</dict>
+</plist>
+`,
+  },
+  {
     name: (args: TemplateArgs) =>
       `${platform}/${args.name}.xcworkspace/contents.xcworkspacedata`,
     content: (args: TemplateArgs) => `<?xml version="1.0" encoding="UTF-8"?>
@@ -105,33 +144,25 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B3E7B58A1CC2AC0600A0062D /* RCT${args.name}Module.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RCT${args.name}Module.m */; };
+		B59C3A44262474C000023194 /* ${args.name}.h in Headers */ = {isa = PBXBuildFile; fileRef = B59C3A42262474C000023194 /* ${args.name}.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3E7B5881CC2AC0600A0062D /* RCT${args.name}Module.h in Headers */ = {isa = PBXBuildFile; fileRef = B59C3A5D26253EA800023194 /* RCT${args.name}Module.h */; };
+		B3E7B5891CC2AC0600A0062D /* RCT${args.name}Module.m in Sources */ = {isa = PBXBuildFile; fileRef = B59C3A5E26253EA800023194 /* RCT${args.name}Module.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		58B511D91A9E6C8500147676 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		134814201AA4EA6300B7C361 /* lib${args.name}.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = lib${args.name}.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E7B5881CC2AC0600A0062D /* RCT${args.name}Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCT${args.name}Module.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* RCT${args.name}Module.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCT${args.name}Module.m; sourceTree = "<group>"; };
+		B59C3A3F262474C000023194 /* ${args.name}.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ${args.name}.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B59C3A42262474C000023194 /* ${args.name}.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactComponent.h; sourceTree = "<group>"; };
+		B59C3A43262474C000023194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B59C3A5D26253EA800023194 /* RCT${args.name}Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCT${args.name}Module.h; sourceTree = "<group>"; };
+		B59C3A5E26253EA800023194 /* RCT${args.name}Module.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCT${args.name}Module.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		58B511D81A9E6C8500147676 /* Frameworks */ = {
+			B59C3A3C262474C000023194 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -141,115 +172,158 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		134814211AA4EA7D00B7C361 /* Products */ = {
+			B59C3A35262474C000023194 = {
 			isa = PBXGroup;
 			children = (
-				134814201AA4EA6300B7C361 /* lib${args.name}.a */,
+				B59C3A41262474C000023194 /* ${args.name} */,
+				B59C3A40262474C000023194 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B59C3A40262474C000023194 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B59C3A3F262474C000023194 /* ${args.name}.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		58B511D21A9E6C8500147676 = {
+		B59C3A41262474C000023194 /* ${args.name} */ = {
 			isa = PBXGroup;
 			children = (
-				B3E7B5881CC2AC0600A0062D /* RCT${args.name}Module.h */,
-				B3E7B5891CC2AC0600A0062D /* RCT${args.name}Module.m */,
-				134814211AA4EA7D00B7C361 /* Products */,
+				B59C3A42262474C000023194 /* ReactComponent.h */,
+				B59C3A5D26253EA800023194 /* RCT${args.name}Module.h */,
+				B59C3A5E26253EA800023194 /* RCT${args.name}Module.m */,
+				B59C3A43262474C000023194 /* Info.plist */,
 			);
+			path = ${args.name};
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		B59C3A3A262474C000023194 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3E7B5881CC2AC0600A0062D /* RCT${args.name}Module.h in Headers */,
+				B59C3A44262474C000023194 /* ${args.name}.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		58B511DA1A9E6C8500147676 /* ${args.name} */ = {
+		B59C3A3E262474C000023194 /* ${args.name} */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "${args.name}" */;
+			buildConfigurationList = B59C3A47262474C000023194 /* Build configuration list for PBXNativeTarget "ReactComponent" */;
 			buildPhases = (
-				58B511D71A9E6C8500147676 /* Sources */,
-				58B511D81A9E6C8500147676 /* Frameworks */,
-				58B511D91A9E6C8500147676 /* CopyFiles */,
+				B59C3A3A262474C000023194 /* Headers */,
+				B59C3A3B262474C000023194 /* Sources */,
+				B59C3A3C262474C000023194 /* Frameworks */,
+				B59C3A3D262474C000023194 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ${args.name};
-			productName = RCTDataManager;
-			productReference = 134814201AA4EA6300B7C361 /* lib${args.name}.a */;
-			productType = "com.apple.product-type.library.static";
+			productName = ${args.name};
+			productReference = B59C3A3F262474C000023194 /* ${args.name}.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		58B511D31A9E6C8500147676 /* Project object */ = {
+		B59C3A36262474C000023194 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
-					58B511DA1A9E6C8500147676 = {
-						CreatedOnToolsVersion = 6.1.1;
+					B59C3A3E262474C000023194 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
-			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "${args.name}" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			buildConfigurationList = B59C3A39262474C000023194 /* Build configuration list for PBXProject "ReactComponent" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
-			mainGroup = 58B511D21A9E6C8500147676;
-			productRefGroup = 58B511D21A9E6C8500147676;
+			mainGroup = B59C3A35262474C000023194;
+			productRefGroup = B59C3A40262474C000023194 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				58B511DA1A9E6C8500147676 /* ${args.name} */,
+				B59C3A3E262474C000023194 /* ${args.name} */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		B59C3A3D262474C000023194 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		58B511D71A9E6C8500147676 /* Sources */ = {
+		B59C3A3B262474C000023194 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3E7B58A1CC2AC0600A0062D /* RCT${args.name}Module.m in Sources */,
+				B3E7B5891CC2AC0600A0062D /* RCT${args.name}Module.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		58B511ED1A9E6C8500147676 /* Debug */ = {
+		B59C3A45262474C000023194 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -257,49 +331,61 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		58B511EE1A9E6C8500147676 /* Release */ = {
+		B59C3A46262474C000023194 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -307,70 +393,88 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		58B511F01A9E6C8500147676 /* Debug */ = {
+		B59C3A48262474C000023194 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../../React/**",
-					"$(SRCROOT)/../../react-native/React/**",
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ${args.name}/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = ${args.name};
+				PRODUCT_BUNDLE_IDENTIFIER = com.beatjs.${args.name};
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		58B511F11A9E6C8500147676 /* Release */ = {
+		B59C3A49262474C000023194 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ${args.name}/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../../React/**",
-					"$(SRCROOT)/../../react-native/React/**",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = ${args.name};
+				PRODUCT_BUNDLE_IDENTIFIER = com.beatjs.${args.name};
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "${args.name}" */ = {
+		B59C3A39262474C000023194 /* Build configuration list for PBXProject "${args.name}" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				58B511ED1A9E6C8500147676 /* Debug */,
-				58B511EE1A9E6C8500147676 /* Release */,
+				B59C3A45262474C000023194 /* Debug */,
+				B59C3A46262474C000023194 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "${args.name}" */ = {
+		B59C3A47262474C000023194 /* Build configuration list for PBXNativeTarget "${args.name}" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				58B511F01A9E6C8500147676 /* Debug */,
-				58B511F11A9E6C8500147676 /* Release */,
+				B59C3A48262474C000023194 /* Debug */,
+				B59C3A49262474C000023194 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 58B511D31A9E6C8500147676 /* Project object */;
+	rootObject = B59C3A36262474C000023194 /* Project object */;
 }
+
 `,
   },
 ];

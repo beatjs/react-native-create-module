@@ -1,3 +1,4 @@
-import {isUpperCase} from './isUpperCase';
+import { isUpperCase } from "./isUpperCase";
 
-export const hasPrefix = (name: string[]) => isUpperCase(name, 0) && isUpperCase(name, 1);
+export const hasPrefix = (name: string[]) =>
+  isUpperCase(name, 0) && isUpperCase(name, 1);
