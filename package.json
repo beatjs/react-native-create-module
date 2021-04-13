@@ -1,6 +1,6 @@
 {
   "name": "@beatjs/react-native-create-module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tool to create a React Native module with a single command",
   "bin": "cli.ts",
   "main": "lib.ts",
