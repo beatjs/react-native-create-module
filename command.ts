@@ -58,8 +58,8 @@ ${emoji.get(
     {
       command: "--package-identifier [packageIdentifier]",
       description:
-        "(Android only!) The package name for the Android module (Default: `com.beatjs.react.create`)",
-      default: "com.beatjs.react.create",
+        "(Android only!) The package name for the Android module (Default: `com.beatjs.react`)",
+      default: "com.beatjs.react",
     },
     {
       command: "--platforms <platforms>",
@@ -70,8 +70,8 @@ ${emoji.get(
     {
       command: "--github-account [githubAccount]",
       description:
-        "The github account where the library is hosted (Default: `github-account`)",
-      default: "github-account",
+        "The github account where the library is hosted (Default: `account`)",
+      default: "account",
     },
     {
       command: "--author-name [authorName]",

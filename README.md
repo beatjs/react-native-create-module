@@ -39,10 +39,10 @@ Options:
   -h, --help                                output usage information
   -V, --version                             output the version number
   --module-prefix <modulePrefix>            The module prefix for the library (Default: `react-native`)
-  --package-identifier <packageIdentifier>  (Android only!) The package name for the Android module (Default: `com.beatjs`)
+  --package-identifier <packageIdentifier>  (Android only!) The package name for the Android module (Default: `com.beatjs.react`)
    (Default: The name as PascalCase)
   --platforms <platforms>                   Platforms the library will be created for. (comma separated; default: `ios,android`)
-  --github-account <github-account>         The github account where the library is hosted (Default: `github-account`)
+  --github-account <githubAccount>         The github account where the library is hosted (Default: `account`)
   --author-name <name>                      The author's name (Default: `Your Name`)
   --author-email <email>                    The author's email (Default: `yourname@email.com`)
   --license <license>                       The license type of this library (Default: `MIT License`)
@@ -65,8 +65,8 @@ createLibrary({
   name: String, /* The name of the library (Default: Library) */
   modulePrefix: String, /* The module prefix for the library (Default: react-native) */
   platforms: Array, /* Platforms the library will be created for. (Default: ['ios', 'android']) */
-  packageIdentifier: String, /* (Android only!) The package name for the Android module (Default: com.beatjs) */
-  githubAccount: String, /* The github account where the library is hosted (Default: `github-account`) */
+  packageIdentifier: String, /* (Android only!) The package name for the Android module (Default: com.beatjs.react) */
+  githubAccount: String, /* The github account where the library is hosted (Default: `account`) */
   authorName: String, /* The author's name (Default: `Your Name`) */
   authorEmail: String, /* The author's email (Default: `yourname@email.com`) */ 
   license: String, /* The license type of this library (Default: `MIT License`) */

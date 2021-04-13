@@ -86,9 +86,9 @@ ${args.name};
   "repository": {
     "type": "git",
     "url": "git+https://github.com/${args.githubAccount}/${
-        args.modulePrefix
+        args.name
       }.git",
-    "baseUrl": "https://github.com/${args.githubAccount}/${args.modulePrefix}"
+    "baseUrl": "https://github.com/${args.githubAccount}/${args.name}"
   },
   "keywords": [
     "react-native"
