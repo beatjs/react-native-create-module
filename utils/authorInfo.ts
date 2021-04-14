@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 
-export const localAuthorName = (path: string) => {
+export const localAuthorName = () => {
   execSync("cd ./drop-beat");
   let authorName = execSync("git show -s --format=%cn").toString().trim();
   execSync("cd ../");

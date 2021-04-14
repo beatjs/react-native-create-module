@@ -1,0 +1,10 @@
+export declare const defaultName: () => string;
+export declare const defaultNamespace: () => string;
+export declare const defaultModulePrefix: () => string;
+export declare const defaultPackageIdentifier: () => string;
+export declare const defaultPlatforms: () => string[];
+export declare const defaultGithubAccount: () => string;
+export declare const defaultAuthorName: () => string;
+export declare const defaultAuthorEmail: () => string;
+export declare const defaultLicense: () => string;
+export declare const defaultGenerateExample: () => boolean;

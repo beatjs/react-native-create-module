@@ -2,7 +2,7 @@ import { android } from "./android";
 import { ios } from "./ios";
 import { general } from "./general";
 
-import { Template } from "model/template.interface";
+import { Template } from "../models/template.interface";
 
 const updatePlatformInFile = (platform: string) => (file: any) =>
   Object.assign(file, { platform });

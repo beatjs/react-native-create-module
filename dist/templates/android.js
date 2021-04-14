@@ -1,24 +1,24 @@
-import { TemplateArgs } from "../models/template-args.class";
-import { Template } from "../models/template.interface";
-
-export const android = (platform: string): Template[] => [
-  {
-    name: () => `${platform}/gradle/wrapper/gradle-wrapper.properties`,
-    content: () => `distributionBase=GRADLE_USER_HOME
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.android = void 0;
+const android = (platform) => [
+    {
+        name: () => `${platform}/gradle/wrapper/gradle-wrapper.properties`,
+        content: () => `distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
 distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-all.zip
 zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
 `,
-  },
-  {
-    name: () => `${platform}/gradle.properties`,
-    content: () => `android.useAndroidX=true
+    },
+    {
+        name: () => `${platform}/gradle.properties`,
+        content: () => `android.useAndroidX=true
     `,
-  },
-  {
-    name: () => `${platform}/build.gradle`,
-    content: () => `buildscript {
+    },
+    {
+        name: () => `${platform}/build.gradle`,
+        content: () => `buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
     }
@@ -72,22 +72,19 @@ dependencies {
     implementation 'com.github.beatjs:react-android:1.1.5'
 }
 `,
-  },
-  {
-    name: () => `${platform}/src/main/AndroidManifest.xml`,
-    content: (
-      args: TemplateArgs
-    ) => `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    },
+    {
+        name: () => `${platform}/src/main/AndroidManifest.xml`,
+        content: (args) => `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="${args.packageIdentifier}">
 </manifest>
 `,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/src/main/java/${args.packageIdentifier
-        .split(".")
-        .join("/")}/${args.name}Module.java`,
-    content: (args: TemplateArgs) => `package ${args.packageIdentifier};
+    },
+    {
+        name: (args) => `${platform}/src/main/java/${args.packageIdentifier
+            .split(".")
+            .join("/")}/${args.name}Module.java`,
+        content: (args) => `package ${args.packageIdentifier};
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -118,13 +115,12 @@ public class ${args.name}Module extends ReactContextBaseJavaModule {
         // TODO: Implement
     }
 }`,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/src/main/java/${args.packageIdentifier
-        .split(".")
-        .join("/")}/${args.name}Package.java`,
-    content: (args: TemplateArgs) => `package ${args.packageIdentifier};
+    },
+    {
+        name: (args) => `${platform}/src/main/java/${args.packageIdentifier
+            .split(".")
+            .join("/")}/${args.name}Package.java`,
+        content: (args) => `package ${args.packageIdentifier};
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -147,10 +143,10 @@ public class ${args.name}Package implements ReactPackage {
     }
 }
 `,
-  },
-  {
-    name: () => `${platform}/README.md`,
-    content: () => `README
+    },
+    {
+        name: () => `${platform}/README.md`,
+        content: () => `README
 ======
 
 If you want to publish the lib as a maven dependency, follow these steps before publishing a new version to npm:
@@ -165,5 +161,6 @@ sdk.dir=/Users/{username}/Library/Android/sdk
 4. Run \`sudo ./gradlew installArchives\`
 5. Verify that latest set of generated files is in the maven folder with the correct version number
 `,
-  },
+    },
 ];
+exports.android = android;

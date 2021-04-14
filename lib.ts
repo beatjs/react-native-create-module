@@ -1,5 +1,5 @@
 import { hasPrefix } from "./utils/hasPrefix";
-import { createFile } from "./utils/create-file";
+import { createFile } from "./utils/createFile";
 import { createFolder } from "./utils/createFolder";
 import { npmAddScriptSync } from "./utils/npmAddScriptSync";
 import { exec } from "./utils/exec";
@@ -15,8 +15,8 @@ import {
   gitInit,
   localAuthorName,
   localAuthorEmail,
-} from "./utils/localAuthorInfo";
-import { TemplateArgs } from "./model/template-args.class";
+} from "./utils/authorInfo";
+import { TemplateArgs } from "./models/template-args.class";
 import {
   defaultAuthorEmail,
   defaultGenerateExample,
@@ -26,15 +26,14 @@ import {
   defaultName,
   defaultPackageIdentifier,
   defaultPlatforms,
-} from "./model/template.define";
-import { Template } from "model/template.interface";
+} from "./models/template.define";
+import { Template } from "./models/template.interface";
 
 const renderTemplate = async (
   name: string,
   template: any,
   templateArgs?: TemplateArgs
 ) => {
-  // console.log(template.name(templateArgs));
   const filename = path.join(name, template.name(templateArgs));
   const baseDir = filename.split(path.basename(filename))[0];
 

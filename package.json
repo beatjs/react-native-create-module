@@ -1,10 +1,11 @@
 {
   "name": "@beatjs/react-native-create-module",
-  "version": "0.0.3",
+  "version": "0.0.13",
   "description": "Tool to create a React Native module with a single command",
-  "bin": "cli.ts",
-  "main": "lib.ts",
+  "bin": "dist/cli.js",
+  "main": "dist/lib.js",
   "scripts": {
+    "build": "tsc -p . -d --resolveJsonModule --esModuleInterop",
     "lint": "eslint",
     "test": "npm run lint"
   },
@@ -23,12 +24,7 @@
     "android"
   ],
   "files": [
-    "templates",
-    "utils",
-    "cli.js",
-    "command.js",
-    "lib.js",
-    "README.md"
+    "dist"
   ],
   "author": "beatjs",
   "license": "MIT",

@@ -13,7 +13,6 @@ program
   .usage(command.usage)
   .description(command.description)
   .action(function runAction(this: any) {
-    // console.log(this.opts())
     command.func(args, this.opts());
   });
 

@@ -1,12 +1,11 @@
+"use strict";
 /* eslint max-len: 0 */
-
-import { Template } from "../models/template.interface";
-
-export const example = (): Template[] => [
-  {
-    name: () => "scripts/examples_postinstall.js",
-    content: () =>
-      `#!/usr/bin/env node
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.example = void 0;
+const example = () => [
+    {
+        name: () => "scripts/examples_postinstall.js",
+        content: () => `#!/usr/bin/env node
 
   /*
    * Using libraries within examples and linking them within packages.json like:
@@ -112,5 +111,6 @@ export const example = (): Template[] => [
     removeLibraryNpmIgnorePaths(npmIgnorePath, libraryNodeModulesPath);
   })();
 `,
-  },
+    },
 ];
+exports.example = example;

@@ -1,10 +1,10 @@
-import { TemplateArgs } from "../models/template-args.class";
-import { Template } from "../models/template.interface";
-
-export const ios = (platform: string): Template[] => [
-  {
-    name: (args: TemplateArgs) => `${args.name}.podspec`,
-    content: (args: TemplateArgs) => `require "json"
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ios = void 0;
+const ios = (platform) => [
+    {
+        name: (args) => `${args.name}.podspec`,
+        content: (args) => `require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
@@ -29,10 +29,10 @@ Pod::Spec.new do |s|
 end
 
 `,
-  },
-  {
-    name: () => `${platform}/Podfile`,
-    content: (args: TemplateArgs) => `
+    },
+    {
+        name: () => `${platform}/Podfile`,
+        content: (args) => `
 platform :ios, '11.0'
 
 use_frameworks!
@@ -42,13 +42,10 @@ target '${args.name}' do
 end
 
 `,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/${args.name}/RCT${args.name}Module.h`,
-    content: (
-      args: TemplateArgs
-    ) => `#if __has_include(<React/RCTBridgeModule.h>)
+    },
+    {
+        name: (args) => `${platform}/${args.name}/RCT${args.name}Module.h`,
+        content: (args) => `#if __has_include(<React/RCTBridgeModule.h>)
 #import <React/RCTBridgeModule.h>
 #else
 #import "RCTBridgeModule.h"
@@ -58,11 +55,10 @@ end
 
 @end
 `,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/${args.name}/RCT${args.name}Module.m`,
-    content: (args: TemplateArgs) => `#import "RCT${args.name}Module.h"
+    },
+    {
+        name: (args) => `${platform}/${args.name}/RCT${args.name}Module.m`,
+        content: (args) => `#import "RCT${args.name}Module.h"
 
 @implementation RCT${args.name}Module
 
@@ -82,10 +78,10 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 
 @end
 `,
-  },
-  {
-    name: (args: TemplateArgs) => `${platform}/${args.name}/${args.name}.h`,
-    content: () => `#import <Foundation/Foundation.h>
+    },
+    {
+        name: (args) => `${platform}/${args.name}/${args.name}.h`,
+        content: () => `#import <Foundation/Foundation.h>
 
 //! Project version number for ReactComponent.
 FOUNDATION_EXPORT double ReactComponentVersionNumber;
@@ -95,10 +91,10 @@ FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ReactComponent/PublicHeader.h>
 `,
-  },
-  {
-    name: (args: TemplateArgs) => `${platform}/${args.name}/Info.plist`,
-    content: () => `<?xml version="1.0" encoding="UTF-8"?>
+    },
+    {
+        name: (args) => `${platform}/${args.name}/Info.plist`,
+        content: () => `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -121,11 +117,10 @@ FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
 </dict>
 </plist>
 `,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/${args.name}.xcworkspace/contents.xcworkspacedata`,
-    content: (args: TemplateArgs) => `<?xml version="1.0" encoding="UTF-8"?>
+    },
+    {
+        name: (args) => `${platform}/${args.name}.xcworkspace/contents.xcworkspacedata`,
+        content: (args) => `<?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
    <FileRef
@@ -133,11 +128,10 @@ FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
    </FileRef>
 </Workspace>
 `,
-  },
-  {
-    name: (args: TemplateArgs) =>
-      `${platform}/${args.name}.xcodeproj/project.pbxproj`,
-    content: (args: TemplateArgs) => `// !$*UTF8*$!
+    },
+    {
+        name: (args) => `${platform}/${args.name}.xcodeproj/project.pbxproj`,
+        content: (args) => `// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -474,5 +468,6 @@ FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
 }
 
 `,
-  },
+    },
 ];
+exports.ios = ios;

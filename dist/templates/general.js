@@ -1,14 +1,13 @@
-import { TemplateArgs } from "../models/template-args.class";
-import { Template } from "../models/template.interface";
-
-export const general = (): Template[] => [
-  {
-    name: () => "README.md",
-    content: (args: TemplateArgs) => {
-      let manualInstallation = "";
-
-      if (args.platforms.indexOf("ios") >= 0) {
-        manualInstallation += `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.general = void 0;
+const general = () => [
+    {
+        name: () => "README.md",
+        content: (args) => {
+            let manualInstallation = "";
+            if (args.platforms.indexOf("ios") >= 0) {
+                manualInstallation += `
 #### iOS
 
 1. In XCode, in the project navigator, right click \`Libraries\` ➜ \`Add Files to [your project's name]\`
@@ -16,10 +15,9 @@ export const general = (): Template[] => [
 3. In XCode, in the project navigator, select your project. Add \`lib${args.name}.a\` to your project's \`Build Phases\` ➜ \`Link Binary With Libraries\`
 4. Run your project (\`Cmd+R\`)<
 `;
-      }
-
-      if (args.platforms.indexOf("android") >= 0) {
-        manualInstallation += `
+            }
+            if (args.platforms.indexOf("android") >= 0) {
+                manualInstallation += `
 #### Android
 
 1. Open up \`android/app/src/main/java/[...]/MainApplication.java\`
@@ -35,9 +33,8 @@ export const general = (): Template[] => [
       compile project(':${args.modulePrefix}')
   	\`\`\`
 `;
-      }
-
-      return `# ${args.modulePrefix}
+            }
+            return `# ${args.modulePrefix}
 
 ## Getting started
 
@@ -59,20 +56,20 @@ import ${args.name} from '${args.modulePrefix}';
 ${args.name};
 \`\`\`
   `;
+        },
     },
-  },
-  {
-    name: () => "package.json",
-    content: (args: TemplateArgs) => {
-      let dependencies = `
+    {
+        name: () => "package.json",
+        content: (args) => {
+            let dependencies = `
     "react": "16.13.1",
     "react-native": "^0.63.4"`;
-      return `{
+            return `{
   "name": "${args.modulePrefix}",
   "title": "${args.modulePrefix
-    .split("-")
-    .map((word) => word[0].toUpperCase() + word.substr(1))
-    .join(" ")}",
+                .split("-")
+                .map((word) => word[0].toUpperCase() + word.substr(1))
+                .join(" ")}",
   "version": "1.0.0",
   "description": "Tool to create a React Native library with a command-line interface",
   "main": "index.js",
@@ -83,9 +80,7 @@ ${args.name};
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/${args.githubAccount}/${
-        args.name
-      }.git",
+    "url": "git+https://github.com/${args.githubAccount}/${args.name}.git",
     "baseUrl": "https://github.com/${args.githubAccount}/${args.name}"
   },
   "keywords": [
@@ -106,24 +101,22 @@ ${args.name};
   }
 }
 `;
+        },
     },
-  },
-  {
-    name: () => "index.js",
-    content: (
-      args: TemplateArgs
-    ) => `import { NativeModules } from 'react-native';
+    {
+        name: () => "index.js",
+        content: (args) => `import { NativeModules } from 'react-native';
 
 const { ${args.name} } = NativeModules;
 NativeModules.${args.name}.hello();
 
 export default ${args.name};
 `,
-  },
-  {
-    name: () => ".gitignore",
-    content: (args: TemplateArgs) => {
-      let content = `# OSX
+    },
+    {
+        name: () => ".gitignore",
+        content: (args) => {
+            let content = `# OSX
 #
 .DS_Store
 
@@ -133,9 +126,8 @@ node_modules/
 npm-debug.log
 yarn-error.log
 `;
-
-      if (args.platforms.indexOf("ios") >= 0) {
-        content += `
+            if (args.platforms.indexOf("ios") >= 0) {
+                content += `
 
 # Xcode
 #
@@ -157,10 +149,9 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 `;
-      }
-
-      if (args.platforms.indexOf("android") >= 0) {
-        content += `
+            }
+            if (args.platforms.indexOf("android") >= 0) {
+                content += `
 
 # Android/IntelliJ
 #
@@ -175,29 +166,27 @@ buck-out/
 \\.buckd/
 *.keystore
 `;
-      }
-
-      return content;
+            }
+            return content;
+        },
     },
-  },
-  {
-    name: () => ".gitattributes",
-    content: (args: TemplateArgs) => {
-      if (args.platforms.indexOf("ios") >= 0) {
-        return "*.pbxproj -text\n";
-      }
-
-      return "";
+    {
+        name: () => ".gitattributes",
+        content: (args) => {
+            if (args.platforms.indexOf("ios") >= 0) {
+                return "*.pbxproj -text\n";
+            }
+            return "";
+        },
     },
-  },
-  {
-    name: () => ".npmignore",
-    content: (args: TemplateArgs) => {
-      if (args.generateExample) {
-        return "example\n";
-      }
-
-      return "";
+    {
+        name: () => ".npmignore",
+        content: (args) => {
+            if (args.generateExample) {
+                return "example\n";
+            }
+            return "";
+        },
     },
-  },
 ];
+exports.general = general;
