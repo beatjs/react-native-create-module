@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const node_emoji_1 = __importDefault(require("node-emoji"));
+const param_case_1 = require("param-case");
 const lib_1 = require("./lib");
 exports.command = {
     name: "create-module",
@@ -36,9 +37,19 @@ exports.command = {
         })
             .then(() => {
             console.log(`
-${node_emoji_1.default.get("books")}  Created library ${modulePrefix}-${name} in \`./${modulePrefix}-${name}\`.
+${node_emoji_1.default.get("star")} args:
+name: ${name}
+modulePrefix: ${modulePrefix}
+packageIdentifier: ${packageIdentifier}
+platforms: ${platforms}
+githubAccount: ${githubAccount}
+authorName: ${authorName}
+license: ${license}
+generateExample: ${authorName}`);
+            console.log(`
+${node_emoji_1.default.get("books")}  Created library ${modulePrefix}-${param_case_1.paramCase(name)} in \`./${modulePrefix}-${param_case_1.paramCase(name)}\`.
 ${node_emoji_1.default.get("clock9")}  It took ${Date.now() - beforeCreation}ms.
-${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${modulePrefix}-${name}\` and run \`npm install\` and run \`npx pod-install\``);
+${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${modulePrefix}-${param_case_1.paramCase(name)}\` and run \`npm install\` and run \`npx pod-install\``);
         })
             .catch((err) => {
             console.error(`Error while creating library ${name}`);
@@ -51,7 +62,7 @@ ${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${moduleP
         {
             command: "--module-prefix [modulePrefix]",
             description: "The module prefix for the library (Default: `react-native`)",
-            default: "react-native",
+            default: "",
         },
         {
             command: "--package-identifier [packageIdentifier]",

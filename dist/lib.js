@@ -39,7 +39,7 @@ const createLibrary = ({ name = template_define_1.defaultName(), modulePrefix = 
         console.warn(`While \`{DEFAULT_PACKAGE_IDENTIFIER}\` is the default package
       identifier, it is recommended to customize the package identifier.`);
     }
-    const rootFolderName = `${modulePrefix}-${param_case_1.paramCase(name)}`;
+    const rootFolderName = modulePrefix.trim().length > 0 ? `${modulePrefix}-${param_case_1.paramCase(name)}` : `${param_case_1.paramCase(name)}`;
     yield createFolder_1.createFolder(rootFolderName);
     yield Promise.all(templates_1.templates
         .filter((template) => {

@@ -63,7 +63,7 @@ export const createLibrary = async ({
       identifier, it is recommended to customize the package identifier.`);
   }
 
-  const rootFolderName = `${modulePrefix}-${paramCase(name)}`;
+  const rootFolderName = modulePrefix.trim().length > 0 ? `${modulePrefix}-${paramCase(name)}` : `${paramCase(name)}`;
   await createFolder(rootFolderName);
   await Promise.all(
     templates

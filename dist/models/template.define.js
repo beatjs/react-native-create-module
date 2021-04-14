@@ -5,7 +5,7 @@ const defaultName = () => "Library";
 exports.defaultName = defaultName;
 const defaultNamespace = () => "React.Native";
 exports.defaultNamespace = defaultNamespace;
-const defaultModulePrefix = () => "react-native";
+const defaultModulePrefix = () => "";
 exports.defaultModulePrefix = defaultModulePrefix;
 const defaultPackageIdentifier = () => "com.beatjs.react";
 exports.defaultPackageIdentifier = defaultPackageIdentifier;

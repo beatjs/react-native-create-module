@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import emoji from "node-emoji";
+import { paramCase } from "param-case";
 import { createLibrary } from "./lib";
 
 export const command = {
@@ -7,7 +8,7 @@ export const command = {
   description: "creates a React Native library for different platforms",
   usage: "[options] <name>",
   func: (args: any, options: any) => {
-    const name = args[0];
+    const name: string = args[0];
     const modulePrefix = options.modulePrefix;
     const packageIdentifier = options.packageIdentifier;
     const platforms = options.platforms
@@ -32,13 +33,23 @@ export const command = {
     })
       .then(() => {
         console.log(`
+${emoji.get("star")} args:
+name: ${name}
+modulePrefix: ${modulePrefix}
+packageIdentifier: ${packageIdentifier}
+platforms: ${platforms}
+githubAccount: ${githubAccount}
+authorName: ${authorName}
+license: ${license}
+generateExample: ${authorName}`);
+        console.log(`
 ${emoji.get(
-  "books"
-)}  Created library ${modulePrefix}-${name} in \`./${modulePrefix}-${name}\`.
+    "books"
+)}  Created library ${modulePrefix}-${paramCase(name)} in \`./${modulePrefix}-${paramCase(name)}\`.
 ${emoji.get("clock9")}  It took ${Date.now() - beforeCreation}ms.
 ${emoji.get(
   "arrow_right"
-)}  To get started type \`cd ./${modulePrefix}-${name}\` and run \`npm install\` and run \`npx pod-install\``);
+)}  To get started type \`cd ./${modulePrefix}-${paramCase(name)}\` and run \`npm install\` and run \`npx pod-install\``);
       })
       .catch((err: { stack: any }) => {
         console.error(`Error while creating library ${name}`);
@@ -53,7 +64,7 @@ ${emoji.get(
       command: "--module-prefix [modulePrefix]",
       description:
         "The module prefix for the library (Default: `react-native`)",
-      default: "react-native",
+      default: "",
     },
     {
       command: "--package-identifier [packageIdentifier]",

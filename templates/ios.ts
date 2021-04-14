@@ -1,3 +1,4 @@
+import { paramCase } from "param-case";
 import { TemplateArgs } from "../models/template-args.class";
 import { Template } from "../models/template.interface";
 
@@ -9,18 +10,18 @@ export const ios = (platform: string): Template[] => [
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
 Pod::Spec.new do |s|
-  s.name = "${args.name}"
+  s.name = "${paramCase(args.name)}"
   s.version = package["version"]
   s.summary = package["description"]
   s.description = 
 	<<-DESC
 		${args.name}
 	DESC
-  s.homepage = "https://github.com/${args.githubAccount}/${args.name}"
+  s.homepage = "https://github.com/${args.githubAccount}/${paramCase(args.name)}"
   s.license = { :type => "MIT", :file => "LICENSE" }
   s.author = { "${args.authorName}" => "${args.authorEmail}" }
   s.platform = :ios, "11.0"
-  s.source = { :git => "https://github.com/${args.authorName}/${args.name}.git", :tag => "#{s.version}" }
+  s.source = { :git => "https://github.com/${args.githubAccount}/${paramCase(args.name)}.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m}"
   s.requires_arc = true
