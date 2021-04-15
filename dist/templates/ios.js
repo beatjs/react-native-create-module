@@ -4,18 +4,15 @@ exports.ios = void 0;
 const param_case_1 = require("param-case");
 const ios = (platform) => [
     {
-        name: (args) => `${args.name}.podspec`,
-        content: (args) => `require "json"
-
-package = JSON.parse(File.read(File.join(__dir__, "package.json")))
-
+        name: (args) => `${platform}/${param_case_1.paramCase(args.name)}.podspec`,
+        content: (args) => `
 Pod::Spec.new do |s|
   s.name = "${param_case_1.paramCase(args.name)}"
-  s.version = package["version"]
-  s.summary = package["description"]
+  s.version = "0.0.1"
+  s.summary = "An runtime base on react-native."
   s.description = 
 	<<-DESC
-		${args.name}
+	"Introduce this library for your App, development by react-native code."
 	DESC
   s.homepage = "https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}"
   s.license = { :type => "MIT", :file => "LICENSE" }
@@ -23,10 +20,10 @@ Pod::Spec.new do |s|
   s.platform = :ios, "11.0"
   s.source = { :git => "https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m}"
+  s.source_files = "${param_case_1.paramCase(args.name)}/**/*.{h,m}"
   s.requires_arc = true
 
-  s.dependency "ReactNativeCore"
+  s.dependency "react-ios", "~> 0.63.4.0"
 end
 
 `,
@@ -39,7 +36,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '${args.name}' do
-	pod 'ReactNativeCore'
+	pod 'react-ios', '~> 0.63.4.0'
 end
 
 `,

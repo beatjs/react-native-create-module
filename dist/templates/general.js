@@ -108,7 +108,7 @@ ${args.name};
         content: (args) => `import { NativeModules } from 'react-native';
 
 const { ${args.name} } = NativeModules;
-NativeModules.${args.name}.hello();
+${args.name}.hello();
 
 export default ${args.name};
 `,
@@ -148,6 +148,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+
+# ios
+ios/Pods
 `;
             }
             if (args.platforms.indexOf("android") >= 0) {

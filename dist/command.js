@@ -49,7 +49,7 @@ generateExample: ${authorName}`);
             console.log(`
 ${node_emoji_1.default.get("books")}  Created library ${modulePrefix}-${param_case_1.paramCase(name)} in \`./${modulePrefix}-${param_case_1.paramCase(name)}\`.
 ${node_emoji_1.default.get("clock9")}  It took ${Date.now() - beforeCreation}ms.
-${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${modulePrefix}-${param_case_1.paramCase(name)}\` and run \`npm install\` and run \`npx pod-install\``);
+${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${modulePrefix}-${param_case_1.paramCase(name)}\` and run \`npx pod-install\``);
         })
             .catch((err) => {
             console.error(`Error while creating library ${name}`);

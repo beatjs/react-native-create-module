@@ -115,7 +115,7 @@ ${args.name};
     ) => `import { NativeModules } from 'react-native';
 
 const { ${args.name} } = NativeModules;
-NativeModules.${args.name}.hello();
+${args.name}.hello();
 
 export default ${args.name};
 `,

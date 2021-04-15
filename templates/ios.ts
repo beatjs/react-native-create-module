@@ -8,7 +8,7 @@ export const ios = (platform: string): Template[] => [
     content: (args: TemplateArgs) => `
 Pod::Spec.new do |s|
   s.name = "${paramCase(args.name)}"
-  s.version = 0.0.1
+  s.version = "0.0.1"
   s.summary = "An runtime base on react-native."
   s.description = 
 	<<-DESC
@@ -20,10 +20,10 @@ Pod::Spec.new do |s|
   s.platform = :ios, "11.0"
   s.source = { :git => "https://github.com/${args.githubAccount}/${paramCase(args.name)}.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m}"
+  s.source_files = "${paramCase(args.name)}/**/*.{h,m}"
   s.requires_arc = true
 
-  s.dependency "react-ios" ~> "0.63.4.0"
+  s.dependency "react-ios", "~> 0.63.4.0"
 end
 
 `,
@@ -36,7 +36,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '${args.name}' do
-	pod 'ReactNativeCore'
+	pod 'react-ios', '~> 0.63.4.0'
 end
 
 `,
