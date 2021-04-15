@@ -4,18 +4,15 @@ import { Template } from "../models/template.interface";
 
 export const ios = (platform: string): Template[] => [
   {
-    name: (args: TemplateArgs) => `${args.name}.podspec`,
-    content: (args: TemplateArgs) => `require "json"
-
-package = JSON.parse(File.read(File.join(__dir__, "package.json")))
-
+    name: (args: TemplateArgs) => `${platform}/${paramCase(args.name)}.podspec`,
+    content: (args: TemplateArgs) => `
 Pod::Spec.new do |s|
   s.name = "${paramCase(args.name)}"
-  s.version = package["version"]
-  s.summary = package["description"]
+  s.version = 0.0.1
+  s.summary = "An runtime base on react-native."
   s.description = 
 	<<-DESC
-		${args.name}
+	"Introduce this library for your App, development by react-native code."
 	DESC
   s.homepage = "https://github.com/${args.githubAccount}/${paramCase(args.name)}"
   s.license = { :type => "MIT", :file => "LICENSE" }
@@ -26,7 +23,7 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m}"
   s.requires_arc = true
 
-  s.dependency "ReactNativeCore"
+  s.dependency "react-ios" ~> "0.63.4.0"
 end
 
 `,

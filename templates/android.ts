@@ -69,7 +69,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.github.beatjs:react-android:1.1.5'
+    implementation 'com.github.beatjs:react-android:0.63.4.+'
 }
 `,
   },

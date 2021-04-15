@@ -49,7 +49,7 @@ ${emoji.get(
 ${emoji.get("clock9")}  It took ${Date.now() - beforeCreation}ms.
 ${emoji.get(
   "arrow_right"
-)}  To get started type \`cd ./${modulePrefix}-${paramCase(name)}\` and run \`npm install\` and run \`npx pod-install\``);
+)}  To get started type \`cd ./${modulePrefix}-${paramCase(name)}\` and run \`npx pod-install\``);
       })
       .catch((err: { stack: any }) => {
         console.error(`Error while creating library ${name}`);

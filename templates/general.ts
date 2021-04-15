@@ -156,6 +156,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+
+# ios
+ios/Pods
 `;
       }
 
