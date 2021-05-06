@@ -7,7 +7,7 @@ const defaultNamespace = () => "React.Native";
 exports.defaultNamespace = defaultNamespace;
 const defaultModulePrefix = () => "";
 exports.defaultModulePrefix = defaultModulePrefix;
-const defaultPackageIdentifier = () => "com.beatjs.react";
+const defaultPackageIdentifier = () => "com.beatjs";
 exports.defaultPackageIdentifier = defaultPackageIdentifier;
 const defaultPlatforms = () => ["android", "ios"];
 exports.defaultPlatforms = defaultPlatforms;

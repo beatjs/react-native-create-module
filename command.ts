@@ -69,8 +69,8 @@ ${emoji.get(
     {
       command: "--package-identifier [packageIdentifier]",
       description:
-        "(Android only!) The package name for the Android module (Default: `com.beatjs.react`)",
-      default: "com.beatjs.react",
+        "(Android only!) The package name for the Android module (Default: `com.beatjs`)",
+      default: "com.beatjs",
     },
     {
       command: "--platforms <platforms>",

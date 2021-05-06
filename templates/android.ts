@@ -1,16 +1,8 @@
+import { dotCase } from "dot-case";
 import { TemplateArgs } from "../models/template-args.class";
 import { Template } from "../models/template.interface";
 
 export const android = (platform: string): Template[] => [
-  {
-    name: () => `${platform}/gradle/wrapper/gradle-wrapper.properties`,
-    content: () => `distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
-distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-all.zip
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists
-`,
-  },
   {
     name: () => `${platform}/gradle.properties`,
     content: () => `android.useAndroidX=true
@@ -40,16 +32,23 @@ zipStorePath=wrapper/dists
 }
   
 apply plugin: 'com.android.library'
-  
+
+def DEFAULT_COMPILE_SDK_VERSION = 30
+def DEFAULT_BUILD_TOOLS_VERSION = "30.0.3"
+def DEFAULT_TARGET_SDK_VERSION = 30
+def DEFAULT_MIN_SDK_VERSION = 16
+
 android {
-    compileSdkVersion 30
-      
+    compileSdkVersion rootProject.hasProperty('compileSdkVersion') ? rootProject.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.hasProperty('buildToolsVersion') ? rootProject.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
+
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion rootProject.hasProperty('minSdkVersion') ? rootProject.minSdkVersion : DEFAULT_MIN_SDK_VERSION
+        targetSdkVersion rootProject.hasProperty('targetSdkVersion') ? rootProject.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
     }
+
     lintOptions {
        warning 'InvalidPackage', 'MissingPermission'
     }
@@ -78,7 +77,7 @@ dependencies {
     content: (
       args: TemplateArgs
     ) => `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="${args.packageIdentifier}">
+    package="${args.packageIdentifier}.${dotCase(args.name)}">
 </manifest>
 `,
   },
@@ -86,8 +85,12 @@ dependencies {
     name: (args: TemplateArgs) =>
       `${platform}/src/main/java/${args.packageIdentifier
         .split(".")
-        .join("/")}/${args.name}Module.java`,
-    content: (args: TemplateArgs) => `package ${args.packageIdentifier};
+        .join("/")}${dotCase(args.name.split(".").join("/"))}/${
+        args.name
+      }Module.java`,
+    content: (args: TemplateArgs) => `package ${
+      args.packageIdentifier
+    }.${dotCase(args.name)};
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -123,8 +126,12 @@ public class ${args.name}Module extends ReactContextBaseJavaModule {
     name: (args: TemplateArgs) =>
       `${platform}/src/main/java/${args.packageIdentifier
         .split(".")
-        .join("/")}/${args.name}Package.java`,
-    content: (args: TemplateArgs) => `package ${args.packageIdentifier};
+        .join("/")}${dotCase(args.name.split(".").join("/"))}/${
+        args.name
+      }Package.java`,
+    content: (args: TemplateArgs) => `package ${
+      args.packageIdentifier
+    }.${dotCase(args.name)};
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -138,7 +145,9 @@ import com.facebook.react.uimanager.ViewManager;
 public class ${args.name}Package implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new ${args.name}Module(reactContext));
+        return Arrays.<NativeModule>asList(new ${
+          args.name
+        }Module(reactContext));
     }
 
     @Override

@@ -4,7 +4,7 @@ import { Template } from "../models/template.interface";
 
 export const ios = (platform: string): Template[] => [
   {
-    name: (args: TemplateArgs) => `${platform}/${paramCase(args.name)}.podspec`,
+    name: (args: TemplateArgs) => `${paramCase(args.name)}.podspec`,
     content: (args: TemplateArgs) => `
 Pod::Spec.new do |s|
   s.name = "${paramCase(args.name)}"
@@ -14,16 +14,19 @@ Pod::Spec.new do |s|
 	<<-DESC
 	"Introduce this library for your App, development by react-native code."
 	DESC
-  s.homepage = "https://github.com/${args.githubAccount}/${paramCase(args.name)}"
-  s.license = { :type => "MIT", :file => "LICENSE" }
+  s.homepage = "https://github.com/${args.githubAccount}/${paramCase(
+      args.name
+    )}"
+	s.license = { :type => "MIT" }
   s.author = { "${args.authorName}" => "${args.authorEmail}" }
-  s.platform = :ios, "11.0"
-  s.source = { :git => "https://github.com/${args.githubAccount}/${paramCase(args.name)}.git", :tag => "#{s.version}" }
+	s.platforms = { :ios => "11.0" }
+  s.source = { :git => "https://github.com/${args.githubAccount}/${paramCase(
+      args.name
+    )}.git", :tag => s.version.to_s }
 
-  s.source_files = "${paramCase(args.name)}/**/*.{h,m}"
-  s.requires_arc = true
+  s.source_files = "${platform}/${args.name}/**/*.{h,m}"
 
-  s.dependency "react-ios", "~> 0.63.4.0"
+  s.dependency "react-ios", "~> 0.63.4.1"
 end
 
 `,
@@ -36,7 +39,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '${args.name}' do
-	pod 'react-ios', '~> 0.63.4.0'
+	pod '${paramCase(args.name)}', :path => '../'
 end
 
 `,
@@ -151,7 +154,7 @@ FOUNDATION_EXPORT const unsigned char ReactComponentVersionString[];
 
 /* Begin PBXFileReference section */
 		B59C3A3F262474C000023194 /* ${args.name}.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ${args.name}.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B59C3A42262474C000023194 /* ${args.name}.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactComponent.h; sourceTree = "<group>"; };
+		B59C3A42262474C000023194 /* ${args.name}.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ${args.name}.h; sourceTree = "<group>"; };
 		B59C3A43262474C000023194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B59C3A5D26253EA800023194 /* RCT${args.name}Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCT${args.name}Module.h; sourceTree = "<group>"; };
 		B59C3A5E26253EA800023194 /* RCT${args.name}Module.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCT${args.name}Module.m; sourceTree = "<group>"; };

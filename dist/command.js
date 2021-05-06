@@ -66,8 +66,8 @@ ${node_emoji_1.default.get("arrow_right")}  To get started type \`cd ./${moduleP
         },
         {
             command: "--package-identifier [packageIdentifier]",
-            description: "(Android only!) The package name for the Android module (Default: `com.beatjs.react`)",
-            default: "com.beatjs.react",
+            description: "(Android only!) The package name for the Android module (Default: `com.beatjs`)",
+            default: "com.beatjs",
         },
         {
             command: "--platforms <platforms>",

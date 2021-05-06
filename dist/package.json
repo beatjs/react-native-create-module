@@ -1,6 +1,6 @@
 {
     "name": "@beatjs/react-native-create-module",
-    "version": "1.0.6",
+    "version": "1.0.8",
     "description": "Tool to create a React Native module with a single command",
     "bin": "dist/cli.js",
     "main": "dist/lib.js",
@@ -34,6 +34,7 @@
     "homepage": "https://github.com/beatjs/react-native-create-module#readme",
     "dependencies": {
         "commander": "^7.1.0",
+        "dot-case": "^3.0.4",
         "jsonfile": "^6.1.0",
         "mkdirp": "^1.0.4",
         "no-case": "^3.0.4",

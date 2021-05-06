@@ -1,16 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.android = void 0;
+const dot_case_1 = require("dot-case");
 const android = (platform) => [
-    {
-        name: () => `${platform}/gradle/wrapper/gradle-wrapper.properties`,
-        content: () => `distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
-distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-all.zip
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists
-`,
-    },
     {
         name: () => `${platform}/gradle.properties`,
         content: () => `android.useAndroidX=true
@@ -40,16 +32,23 @@ zipStorePath=wrapper/dists
 }
   
 apply plugin: 'com.android.library'
-  
+
+def DEFAULT_COMPILE_SDK_VERSION = 30
+def DEFAULT_BUILD_TOOLS_VERSION = "30.0.3"
+def DEFAULT_TARGET_SDK_VERSION = 30
+def DEFAULT_MIN_SDK_VERSION = 16
+
 android {
-    compileSdkVersion 30
-      
+    compileSdkVersion rootProject.hasProperty('compileSdkVersion') ? rootProject.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.hasProperty('buildToolsVersion') ? rootProject.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
+
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion rootProject.hasProperty('minSdkVersion') ? rootProject.minSdkVersion : DEFAULT_MIN_SDK_VERSION
+        targetSdkVersion rootProject.hasProperty('targetSdkVersion') ? rootProject.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
     }
+
     lintOptions {
        warning 'InvalidPackage', 'MissingPermission'
     }
@@ -76,15 +75,15 @@ dependencies {
     {
         name: () => `${platform}/src/main/AndroidManifest.xml`,
         content: (args) => `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="${args.packageIdentifier}">
+    package="${args.packageIdentifier}.${dot_case_1.dotCase(args.name)}">
 </manifest>
 `,
     },
     {
         name: (args) => `${platform}/src/main/java/${args.packageIdentifier
             .split(".")
-            .join("/")}/${args.name}Module.java`,
-        content: (args) => `package ${args.packageIdentifier};
+            .join("/")}${dot_case_1.dotCase(args.name.split(".").join("/"))}/${args.name}Module.java`,
+        content: (args) => `package ${args.packageIdentifier}.${dot_case_1.dotCase(args.name)};
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -119,8 +118,8 @@ public class ${args.name}Module extends ReactContextBaseJavaModule {
     {
         name: (args) => `${platform}/src/main/java/${args.packageIdentifier
             .split(".")
-            .join("/")}/${args.name}Package.java`,
-        content: (args) => `package ${args.packageIdentifier};
+            .join("/")}${dot_case_1.dotCase(args.name.split(".").join("/"))}/${args.name}Package.java`,
+        content: (args) => `package ${args.packageIdentifier}.${dot_case_1.dotCase(args.name)};
 
 import java.util.Arrays;
 import java.util.Collections;
