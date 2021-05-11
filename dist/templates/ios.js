@@ -7,22 +7,22 @@ const ios = (platform) => [
         name: (args) => `${param_case_1.paramCase(args.name)}.podspec`,
         content: (args) => `
 Pod::Spec.new do |s|
-  s.name = "${param_case_1.paramCase(args.name)}"
-  s.version = "0.0.1"
-  s.summary = "An runtime base on react-native."
+  s.name = '${param_case_1.paramCase(args.name)}'
+  s.version = '0.0.1'
+  s.summary = 'An runtime base on react-native.'
   s.description = 
 	<<-DESC
-	"Introduce this library for your App, development by react-native code."
+	'Introduce this library for your App, development by react-native code.'
 	DESC
-  s.homepage = "https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}"
-	s.license = { :type => "MIT" }
-  s.author = { "${args.authorName}" => "${args.authorEmail}" }
-	s.platforms = { :ios => "11.0" }
-  s.source = { :git => "https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}.git", :tag => s.version.to_s }
+  s.homepage = 'https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}'
+	s.license = { :type => 'MIT' }
+  s.author = { '${args.authorName}' => '${args.authorEmail}' }
+	s.platforms = { :ios => '11.0' }
+  s.source = { :git => 'https://github.com/${args.githubAccount}/${param_case_1.paramCase(args.name)}.git', :tag => s.version.to_s }
 
-  s.source_files = "${platform}/${args.name}/**/*.{h,m}"
+  s.source_files = '${platform}/${args.name}/**/*.{h,m}'
 
-  s.dependency "react-ios", "~> 0.63.4.1"
+  s.dependency 'react-ios', '~> 0.63.4.1'
 end
 
 `,
@@ -33,6 +33,7 @@ end
 platform :ios, '11.0'
 
 use_frameworks!
+inhibit_all_warnings!
 
 target '${args.name}' do
 	pod '${param_case_1.paramCase(args.name)}', :path => '../'
@@ -42,11 +43,7 @@ end
     },
     {
         name: (args) => `${platform}/${args.name}/RCT${args.name}Module.h`,
-        content: (args) => `#if __has_include(<React/RCTBridgeModule.h>)
-#import <React/RCTBridgeModule.h>
-#else
-#import "RCTBridgeModule.h"
-#endif
+        content: (args) => `#import <React/RCTBridgeModule.h>
 
 @interface RCT${args.name}Module : NSObject <RCTBridgeModule>
 

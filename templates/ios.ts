@@ -7,26 +7,26 @@ export const ios = (platform: string): Template[] => [
     name: (args: TemplateArgs) => `${paramCase(args.name)}.podspec`,
     content: (args: TemplateArgs) => `
 Pod::Spec.new do |s|
-  s.name = "${paramCase(args.name)}"
-  s.version = "0.0.1"
-  s.summary = "An runtime base on react-native."
+  s.name = '${paramCase(args.name)}'
+  s.version = '0.0.1'
+  s.summary = 'An runtime base on react-native.'
   s.description = 
 	<<-DESC
-	"Introduce this library for your App, development by react-native code."
+	'Introduce this library for your App, development by react-native code.'
 	DESC
-  s.homepage = "https://github.com/${args.githubAccount}/${paramCase(
+  s.homepage = 'https://github.com/${args.githubAccount}/${paramCase(
       args.name
-    )}"
-	s.license = { :type => "MIT" }
-  s.author = { "${args.authorName}" => "${args.authorEmail}" }
-	s.platforms = { :ios => "11.0" }
-  s.source = { :git => "https://github.com/${args.githubAccount}/${paramCase(
+    )}'
+	s.license = { :type => 'MIT' }
+  s.author = { '${args.authorName}' => '${args.authorEmail}' }
+	s.platforms = { :ios => '11.0' }
+  s.source = { :git => 'https://github.com/${args.githubAccount}/${paramCase(
       args.name
-    )}.git", :tag => s.version.to_s }
+    )}.git', :tag => s.version.to_s }
 
-  s.source_files = "${platform}/${args.name}/**/*.{h,m}"
+  s.source_files = '${platform}/${args.name}/**/*.{h,m}'
 
-  s.dependency "react-ios", "~> 0.63.4.1"
+  s.dependency 'react-ios', '~> 0.63.4.1'
 end
 
 `,
@@ -37,6 +37,7 @@ end
 platform :ios, '11.0'
 
 use_frameworks!
+inhibit_all_warnings!
 
 target '${args.name}' do
 	pod '${paramCase(args.name)}', :path => '../'
@@ -49,11 +50,7 @@ end
       `${platform}/${args.name}/RCT${args.name}Module.h`,
     content: (
       args: TemplateArgs
-    ) => `#if __has_include(<React/RCTBridgeModule.h>)
-#import <React/RCTBridgeModule.h>
-#else
-#import "RCTBridgeModule.h"
-#endif
+    ) => `#import <React/RCTBridgeModule.h>
 
 @interface RCT${args.name}Module : NSObject <RCTBridgeModule>
 

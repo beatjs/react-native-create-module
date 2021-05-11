@@ -20,8 +20,8 @@ const android = (platform) => [
     // module dependency in an application project.
     if (project == rootProject) {
         repositories {
+            mavenCentral()
             google()
-            jcenter()
         }
         def buildGradleVersion = ext.has('buildGradlePluginVersion') ? ext.get('buildGradlePluginVersion') : '4.1.2'
   
@@ -62,8 +62,8 @@ android {
 }
   
 repositories {
+    mavenCentral()
     google()
-    jcenter()
     maven { url 'https://jitpack.io' }
 }
   
